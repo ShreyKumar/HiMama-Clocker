@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin|Roboto');
+$font: 'Cabin', sans-serif;
+$digital-clock-font: 'Roboto', sans-serif;
+$heading-color: #34B9C6;
+$heading-color-r: #078790;
+
+.App {
+  font-family: $font;
+  #main-container {
+    width: 600px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    header{
+      h1 {
+        font-size: 50px;
+        float: right;
+        display: block;
+        margin-top: 14px;
+        float: right;
+        .first {
+          color: $heading-color;
+        }
+        .second {
+          color: $heading-color-r;
+        }
+      }
+    }
+    .clocks {
+      position: relative;
+      margin-top: 27px;
+      .digital-clock {
+        display: inline-block;
+        position: absolute;
+        top: 269px;
+        left: 217px;
+        div{
+          color: black !important;
+          font-size: 40px;
+          font-family: $digital-clock-font;
+          span {
+            text-align: center;
+            display: block;
+          }
+        }
+      }
+      .analog-clock {
+        margin-left: 125px;
+      }
+    }
+  }
+}
