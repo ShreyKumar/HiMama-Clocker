@@ -4,6 +4,8 @@ import DigitalClock from "react-digital-clock";
 import AnalogClock from "react-clock";
 import "./App.scss"
 
+import Table from "./components/Table.js";
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -37,7 +39,8 @@ class App extends Component {
             </div>
             <AnalogClock value={this.state.date} size={400} className="analog-clock" />
           </div>
-          
+
+          <Table />
 
         </div>
 
