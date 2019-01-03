@@ -6,10 +6,13 @@ class Table extends Component {
   constructor(props){
     super(props)
     this.state = {
-      data: []
+      data: [],
+      showanimation: false,
+      loaded: true
     }
 
     this.getActivity = this.getActivity.bind(this)
+    this.submitted = this.submitted.bind(this)
 
     //initial call
     this.getActivity()
@@ -31,6 +34,18 @@ class Table extends Component {
     })
   }
 
+  submitted(){
+    this.getActivity()
+    this.setState({
+      showanimation: true,
+      loaded: false
+    })
+
+    setTimeout(() => {
+      this.setState({showanimation: false})
+    }, 3000)
+  }
+
   // TODO: trigger switch at Form
   // Upon submit, call another func here and change state to hide form
   // CSS3 animation to move card down
@@ -43,21 +58,56 @@ class Table extends Component {
 
   //More features: pages to show only few, sort by earliest, sort by people
 
+  /*
+  <div className="clockin-area">
+    {
+      (!this.state.showanimation || this.state.loaded) &&
+      <Form submitted={this.submitted} />
+    }
+    {
+      this.state.showanimation &&
+      <Form className="fade" submitted={this.submitted} />
+    }
+    {
+      this.state.data.map((item, index) => {
+        if(index == 0 && this.state.showanimation){
+          return (
+            <div className="Card slidedown">
+              <p className="item firstname">{item.firstname}</p>
+              <p className="item lastname">{item.lastname}</p>
+              <p className="item mode">{item.mode.toUpperCase()}</p>
+              <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
+            </div>
+          );
+        } else {
+          return (
+            <div key={item.firstname} className="Card">
+              <p className="item firstname">{item.firstname}</p>
+              <p className="item lastname">{item.lastname}</p>
+              <p className="item mode">{item.mode.toUpperCase()}</p>
+              <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
+            </div>
+          )
+        }
+      })
+    }
+  </div>
+  */
 
   render(){
     return (
       <div className="clockin-area">
-        <Form />
+        <Form submitted={this.submitted} />
         {
-          this.state.data.map(item => {
+          this.state.data.map((item, index) => {
             return (
-              <div key={item.firstname} className="Card">
+              <div key={item.firstname + " " + item.mode} className="Card">
                 <p className="item firstname">{item.firstname}</p>
                 <p className="item lastname">{item.lastname}</p>
-                <p className="item mode">{item.mode.toUpperCase()}</p>
+                <p className={"item mode " + item.mode}>{item.mode.toUpperCase()}</p>
                 <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
               </div>
-            );
+            )
           })
         }
       </div>

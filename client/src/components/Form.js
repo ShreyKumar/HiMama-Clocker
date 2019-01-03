@@ -92,6 +92,8 @@ class Form extends Component {
               "firstnamevalid": false,
               "lastnamevalid": false
             })
+
+            this.props.submitted()
           }
         })
       })
@@ -107,7 +109,7 @@ class Form extends Component {
     }
 
     return (
-      <form className="clock-form Card">
+      <form className={"clock-form Card " + this.props.className}>
         <input value={this.state.firstname} onChange={this.checkFirstname} onBlur={this.checkFirstname} className="firstname" placeholder="Firstname" />
         <input value={this.state.lastname} onChange={this.checkLastname} onBlur={this.checkLastname} className="lastname" placeholder="Lastname"/>
         <div className="inorout" onClick={this.inOutSwitch}>
