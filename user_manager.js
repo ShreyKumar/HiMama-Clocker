@@ -16,7 +16,7 @@ module.exports = {
 
             //update check in time
             this.allusers[i].in_time = new Date()
-            return {"success": "You have checked in!"}
+            return {"success": "You have clocked in!"}
           }
         }
 
@@ -31,16 +31,16 @@ module.exports = {
         //check in
         this.allusers.push(user)
 
-        return {"success": "You have checked in!"}
+        return {"success": "You have clocked in!"}
 
       } else {
         for(let i = 0; i < this.allusers.length; i++){
           if(this.allusers[i].firstname == firstname && this.allusers[i].lastname == lastname){
             this.allusers[i].out_time = new Date()
-            return {"success": "You have checked out!"}
+            return {"success": "You have clocked out!"}
           }
         }
-        return {"error": "You haven't checked in yet!"}
+        return {"error": "You haven't clocked in yet!"}
 
       }
 
