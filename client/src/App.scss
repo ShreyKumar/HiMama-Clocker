@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Cabin|Roboto');
-$font: 'Cabin', sans-serif;
-$digital-clock-font: 'Roboto', sans-serif;
-$heading-color: #34B9C6;
-$heading-color-r: #078790;
+@import "./scss/variables.scss";
 
 * {
   box-sizing: border-box !important;
@@ -11,7 +8,7 @@ $heading-color-r: #078790;
 .App {
   font-family: $font;
   #main-container {
-    width: 600px;
+    width: 610px;
     display: block;
     margin-left: auto;
     margin-right: auto;
