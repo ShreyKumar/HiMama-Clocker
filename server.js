@@ -32,4 +32,10 @@ app.get("/clock/get", (req, res) => {
   res.send(users.allusers)
 })
 
+// Only for deployment
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
