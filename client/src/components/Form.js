@@ -9,7 +9,8 @@ class Form extends Component {
       "firstname": "",
       "lastname": "",
       "firstnamevalid": false,
-      "lastnamevalid": false
+      "lastnamevalid": false,
+      "errormsg": ""
     }
 
     this.inOutSwitch = this.inOutSwitch.bind(this)
@@ -59,7 +60,33 @@ class Form extends Component {
     e.preventDefault()
     if(this.state.firstnamevalid && this.state.lastnamevalid){
       //post to server
+      let url;
+      if(this.state.inoutswitch == "in"){
+        url = "http://localhost:5000/clock/in"
+      } else {
+        url = "http://localhost:5000/clock/out"
+      }
 
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstname: this.state.firstname,
+          lastname: this.state.lastname
+        })
+      }).then(resp => {
+        console.log(resp)
+        resp.json().then(data => {
+          if(data.hasOwnProperty("error")){
+            this.setState({"errormsg": data["error"]})
+          } else {
+            this.setState({"errormsg": ""})
+          }
+        })
+      })
     }
   }
 
@@ -85,7 +112,7 @@ class Form extends Component {
           <div className={"selected " + this.state.inoutswitch}></div>
         </div>
         <a href="#" onClick={this.clock} className={"submit-btn " + btnswitch}>Submit</a>
-        <span className="errormsg">Error msg</span>
+        <span className="errormsg">{this.state.errormsg}</span>
       </form>
     )
   }
