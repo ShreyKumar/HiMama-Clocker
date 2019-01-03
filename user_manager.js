@@ -18,6 +18,20 @@ module.exports = {
 
             //update check in time
             this.allusers[i].time = new Date()
+
+            //out time must be greater than in time
+            for(let j = 0; j < this.allusers.length; j++){
+              if(this.allusers[j].firstname == firstname &&
+                this.allusers[j].lastname == lastname &&
+                this.allusers[j].mode == "out" &&
+                this.allusers[j].time < this.allusers[i].time){
+
+                  //remove
+                  this.allusers.splice(j, 1)
+                  break
+              }
+            }
+
             return {"success": "You have clocked in!"}
           }
         }
