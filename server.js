@@ -5,15 +5,22 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//User manager controls Users
+const users = require('./user_manager.js').users;
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
-});
+//Routes
+app.post("/clock/in", (req, res) => {
+  const ret = users.clock("in", req.body.firstname, req.body.lastname)
+  res.send(ret)
+})
+
+app.post("/clock/out", (req, res) => {
+  const ret = users.clock("out", req.body.firstname, req.body.lastname)
+  res.send(ret)
+})
+
+app.get("/clock/get", (req, res) => {
+  res.send(users.allusers)
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
