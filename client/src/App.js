@@ -33,6 +33,7 @@ class App extends Component {
               <span className="second">r</span>
             </h1>
           </header>
+          <h2>Clock ins for {this.state.date.toLocaleDateString()}</h2>
           <div className="clocks">
             <div className="digital-clock">
               <DigitalClock />

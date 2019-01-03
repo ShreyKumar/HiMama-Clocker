@@ -3,8 +3,8 @@ module.exports = {
   user: {
     firstname: "",
     lastname: "",
-    in_time: null,
-    out_time: null
+    time: null,
+    mode: ""
   },
   users: {
     allusers: [],
@@ -12,10 +12,12 @@ module.exports = {
       const today = new Date()
       if(mode == "in"){
         for(let i = 0; i < this.allusers.length; i++){
-          if(this.allusers[i].firstname == firstname && this.allusers[i].lastname == lastname){
+          if(this.allusers[i].firstname == firstname &&
+            this.allusers[i].lastname == lastname &&
+            this.allusers[i].mode == "in"){
 
             //update check in time
-            this.allusers[i].in_time = new Date()
+            this.allusers[i].time = new Date()
             return {"success": "You have clocked in!"}
           }
         }
@@ -23,24 +25,50 @@ module.exports = {
         let user = {
           firstname: firstname,
           lastname: lastname,
-          in_time: null,
-          out_time: null
+          time: new Date(),
+          mode: "in"
         }
-        user.in_time = new Date()
-
         //check in
-        this.allusers.push(user)
+        this.allusers.unshift(user)
 
         return {"success": "You have clocked in!"}
 
       } else {
+
+        let clockedIn = false
         for(let i = 0; i < this.allusers.length; i++){
-          if(this.allusers[i].firstname == firstname && this.allusers[i].lastname == lastname){
-            this.allusers[i].out_time = new Date()
-            return {"success": "You have clocked out!"}
+          if(this.allusers[i].firstname == firstname &&
+            this.allusers[i].lastname == lastname &&
+            this.allusers[i].mode == "in"){
+            clockedIn = true
           }
         }
-        return {"error": "You haven't clocked in yet!"}
+
+        if(clockedIn){
+          for(let i = 0; i < this.allusers.length; i++){
+            if(this.allusers[i].firstname == firstname &&
+              this.allusers[i].lastname == lastname &&
+              this.allusers[i].mode == "out"){
+
+              this.allusers[i].time = new Date()
+              return {"success": "You have clocked out!"}
+            }
+          }
+
+          let user = {
+            firstname: firstname,
+            lastname: lastname,
+            time: new Date(),
+            mode: "out"
+          }
+
+          this.allusers.unshift(user)
+
+          return {"success": "You have clocked out!"}
+        } else {
+          return {"error": "You haven't clocked in yet!"}
+        }
+
 
       }
 

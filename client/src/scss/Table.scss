@@ -1,0 +1,33 @@
+@import "variables.scss";
+$grey: #a9a0a0;
+.clockin-area {
+  min-height: 650px;
+  padding-left: 30px;
+  margin-top: 50px;
+  padding-top: 1px;
+  padding-right: 30px;
+  .Card {
+    background-color: white;
+    min-height: 60px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid $grey;
+    .item {
+      width: 203px;
+      float: left;
+      margin: 0;
+      text-overflow: ellipsis;
+    }
+    .item.lastname {
+      padding-left: 10px;
+    }
+    .item.time {
+      margin-left: 82px;
+      width: 100px;
+      font-family: $digital-clock-font;
+    }
+    .item.mode {
+      width: 20px;
+    }
+  }
+}

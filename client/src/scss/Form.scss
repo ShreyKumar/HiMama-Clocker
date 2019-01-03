@@ -95,5 +95,8 @@ form {
   }
   .errormsg {
     color: red;
+    display: block;
+    position: absolute;
+    font-size: 13px;
   }
 }

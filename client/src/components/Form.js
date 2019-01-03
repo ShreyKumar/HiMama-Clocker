@@ -17,6 +17,8 @@ class Form extends Component {
     this.checkFirstname = this.checkFirstname.bind(this)
     this.checkLastname = this.checkLastname.bind(this)
     this.clock = this.clock.bind(this)
+
+    this.namechecker = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-{1,}]/;
   }
 
   inOutSwitch(){
@@ -29,9 +31,9 @@ class Form extends Component {
 
   checkFirstname(e){
     e.preventDefault();
-    if(e.target.value.length > 1){
+    this.setState({"firstname": e.target.value})
+    if(this.namechecker.test(e.target.value)){
       this.setState({
-        "firstname": e.target.value,
         "firstnamevalid": true
       })
     } else {
@@ -44,9 +46,9 @@ class Form extends Component {
 
   checkLastname(e){
     e.preventDefault();
-    if(e.target.value.length > 1){
+    this.setState({"lastname": e.target.value})
+    if(this.namechecker.test(e.target.value)){
       this.setState({
-        "lastname": e.target.value,
         "lastnamevalid": true
       })
     } else {
@@ -83,7 +85,13 @@ class Form extends Component {
           if(data.hasOwnProperty("error")){
             this.setState({"errormsg": data["error"]})
           } else {
-            this.setState({"errormsg": ""})
+            this.setState({
+              "errormsg": "",
+              "firstname": "",
+              "lastname": "",
+              "firstnamevalid": false,
+              "lastnamevalid": false
+            })
           }
         })
       })
@@ -99,9 +107,9 @@ class Form extends Component {
     }
 
     return (
-      <form className="clock-form">
-        <input onChange={this.checkFirstname} onBlur={this.checkFirstname} className="firstname" placeholder="Firstname" />
-        <input onChange={this.checkLastname} onBlur={this.checkLastname} className="lastname" placeholder="Lastname"/>
+      <form className="clock-form Card">
+        <input value={this.state.firstname} onChange={this.checkFirstname} onBlur={this.checkFirstname} className="firstname" placeholder="Firstname" />
+        <input value={this.state.lastname} onChange={this.checkLastname} onBlur={this.checkLastname} className="lastname" placeholder="Lastname"/>
         <div className="inorout" onClick={this.inOutSwitch}>
           <div className="in">
             <span>IN</span>
