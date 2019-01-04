@@ -8,6 +8,24 @@ module.exports = {
   },
   users: {
     allusers: [],
+    sortUsers(){
+      //makes sure users are sorted
+      if(this.allusers.length > 0){
+
+        //standard sorting algorithm
+        let pivot = this.allusers[0].time
+        let newUsers = [this.allusers[0]]
+        for(let i = 0; i < this.allusers.length; i++){
+          if(this.allusers[i].time > pivot){
+            newUsers.unshift(this.allusers[i])
+          }
+          if(this.allusers[i].time < pivot) {
+            newUsers.push(this.allusers[i])
+          }
+        }
+        this.allusers = newUsers
+      }
+    },
     clock(mode, firstname, lastname) {
       const today = new Date()
       if(mode == "in"){
@@ -32,6 +50,8 @@ module.exports = {
               }
             }
 
+
+            this.sortUsers()
             return {"success": "You have clocked in!"}
           }
         }
@@ -45,6 +65,7 @@ module.exports = {
         //check in
         this.allusers.unshift(user)
 
+        this.sortUsers()
         return {"success": "You have clocked in!"}
 
       } else {
@@ -65,6 +86,7 @@ module.exports = {
               this.allusers[i].mode == "out"){
 
               this.allusers[i].time = new Date()
+              this.sortUsers()
               return {"success": "You have clocked out!"}
             }
           }
@@ -78,6 +100,7 @@ module.exports = {
 
           this.allusers.unshift(user)
 
+          this.sortUsers()
           return {"success": "You have clocked out!"}
         } else {
           return {"error": "You haven't clocked in yet!"}

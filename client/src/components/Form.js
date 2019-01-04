@@ -64,9 +64,9 @@ class Form extends Component {
       //post to server
       let url;
       if(this.state.inoutswitch == "in"){
-        url = "http://localhost:5000/clock/in"
+        url = "/clock/in"
       } else {
-        url = "http://localhost:5000/clock/out"
+        url = "/clock/out"
       }
 
       fetch(url, {
