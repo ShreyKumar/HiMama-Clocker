@@ -12,6 +12,10 @@ $grey: #a9a0a0;
       float: left;
       margin: 0;
       text-overflow: ellipsis;
+      -webkit-user-select: none; /* Safari */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none;
+      user-select: none;
     }
     .item.lastname {
       padding-left: 10px;
@@ -34,6 +38,9 @@ $grey: #a9a0a0;
     .item.mode.out {
       background-color: red;
     }
+  }
+  .Card:not(.editmode):not(.clock-form):hover {
+    cursor: pointer;
   }
 
   .Card.editmode {
