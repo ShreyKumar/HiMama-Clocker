@@ -26,8 +26,10 @@ module.exports = {
         this.allusers = newUsers
       }
     },
-    clock(mode, firstname, lastname) {
-      const today = new Date()
+    clock(mode, firstname, lastname, time) {
+      if(!time){
+        time = new Date()
+      }
       if(mode == "in"){
         for(let i = 0; i < this.allusers.length; i++){
           if(this.allusers[i].firstname == firstname &&
@@ -35,7 +37,7 @@ module.exports = {
             this.allusers[i].mode == "in"){
 
             //update check in time
-            this.allusers[i].time = new Date()
+            this.allusers[i].time = time
 
             //out time must be greater than in time
             for(let j = 0; j < this.allusers.length; j++){
@@ -59,7 +61,7 @@ module.exports = {
         let user = {
           firstname: firstname,
           lastname: lastname,
-          time: new Date(),
+          time: time,
           mode: "in"
         }
         //check in
@@ -69,15 +71,22 @@ module.exports = {
         return {"success": "You have clocked in!"}
 
       } else {
-
+        console.log("THIS IS CLOCK OUT")
         let clockedIn = false
         for(let i = 0; i < this.allusers.length; i++){
           if(this.allusers[i].firstname == firstname &&
             this.allusers[i].lastname == lastname &&
-            this.allusers[i].mode == "in"){
+            this.allusers[i].mode == "in" &&
+            new Date(this.allusers[i].time).toLocaleTimeString()
+              != new Date(time).toLocaleTimeString()){
             clockedIn = true
           }
+          console.log(this.allusers[i].time)
+          console.log(time)
         }
+
+        console.log("Clocked in?")
+        console.log(clockedIn)
 
         if(clockedIn){
           for(let i = 0; i < this.allusers.length; i++){
@@ -85,7 +94,7 @@ module.exports = {
               this.allusers[i].lastname == lastname &&
               this.allusers[i].mode == "out"){
 
-              this.allusers[i].time = new Date()
+              this.allusers[i].time = time
               this.sortUsers()
               return {"success": "You have clocked out!"}
             }
@@ -94,7 +103,7 @@ module.exports = {
           let user = {
             firstname: firstname,
             lastname: lastname,
-            time: new Date(),
+            time: time,
             mode: "out"
           }
 

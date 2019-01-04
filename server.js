@@ -20,14 +20,24 @@ const users = require('./user_manager.js').users;
 
 //Routes
 app.post("/clock/in", (req, res) => {
-  const ret = users.clock("in", req.body.firstname, req.body.lastname)
+  let ret;
+  if(req.body.time){
+    ret = users.clock("in", req.body.firstname, req.body.lastname, req.body.time)
+  } else {
+    ret = users.clock("in", req.body.firstname, req.body.lastname)
+  }
   console.log("this is ret")
   console.log(ret)
   res.send(ret)
 })
 
 app.post("/clock/out", (req, res) => {
-  const ret = users.clock("out", req.body.firstname, req.body.lastname)
+  let ret;
+  if(req.body.time){
+    ret = users.clock("out", req.body.firstname, req.body.lastname, req.body.time)
+  } else {
+    ret = users.clock("out", req.body.firstname, req.body.lastname)
+  }
   res.send(ret)
 })
 
