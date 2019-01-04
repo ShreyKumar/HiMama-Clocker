@@ -56,55 +56,6 @@ class Table extends Component {
     }, 3000)
   }
 
-  // TODO: trigger switch at Form
-  // Upon submit, call another func here and change state to hide form
-  // CSS3 animation to move card down
-  // upon animation finish, change state to include form again
-
-
-  //TODO 2: Edit feature - double click to change item to a form
-  //TODO 3: Change switch in form to seperate component and include that in edit mode
-  //On blur or enter to successfully change it, Error message to pop below it
-
-  //More features: pages to show only few, sort by earliest, sort by people
-
-  /*
-  <div className="clockin-area">
-    {
-      (!this.state.showanimation || this.state.loaded) &&
-      <Form submitted={this.submitted} />
-    }
-    {
-      this.state.showanimation &&
-      <Form className="fade" submitted={this.submitted} />
-    }
-    {
-      this.state.data.map((item, index) => {
-        if(index == 0 && this.state.showanimation){
-          return (
-            <div className="Card slidedown">
-              <p className="item firstname">{item.firstname}</p>
-              <p className="item lastname">{item.lastname}</p>
-              <p className="item mode">{item.mode.toUpperCase()}</p>
-              <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
-            </div>
-          );
-        } else {
-          return (
-            <div key={item.firstname} className="Card">
-              <p className="item firstname">{item.firstname}</p>
-              <p className="item lastname">{item.lastname}</p>
-              <p className="item mode">{item.mode.toUpperCase()}</p>
-              <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
-            </div>
-          )
-        }
-      })
-    }
-  </div>
-  */
-
-
   render(){
     return (
       <div className="clockin-area">
