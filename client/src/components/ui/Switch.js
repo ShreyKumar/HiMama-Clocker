@@ -22,9 +22,16 @@ class Switch extends Component {
     if(this.state.inoutswitch == "in"){
       this.setState({"inoutswitch": "out"})
       this.props.sendSwitchValue("out")
+
+      if(this.props.detectClick){
+        this.props.detectClick()
+      }
     } else {
       this.setState({"inoutswitch": "in"})
       this.props.sendSwitchValue("in")
+      if(this.props.detectClick){
+        this.props.detectClick()
+      }
     }
   }
 

@@ -44,8 +44,9 @@ class Card extends Component {
     this.updateAMPM = this.updateAMPM.bind(this)
 
     this.save = this.save.bind(this)
+    this.saveOnEnter = this.saveOnEnter.bind(this)
+    this.flip = this.flip.bind(this)
 
-    this.namechecker = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-{1,}]/;
   }
 
   editMode(){
@@ -53,6 +54,7 @@ class Card extends Component {
   }
 
   updateFirstname(e){
+    console.log(e.target.value)
     this.setState({
       firstname: e.target.value
     })
@@ -94,87 +96,79 @@ class Card extends Component {
     })
   }
 
-  save(e){
+  saveOnEnter(e){
     if(e.keyCode == 13){
-      let newState = {
-        "fieldsvalid": false,
-        "errormsg": ""
-      }
-
-      //firstname
-      if(this.namechecker.test(this.state.firstname)){
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      } else {
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Firstname!"
-      }
-
-      //lastname
-      if(this.namechecker.test(this.state.lastname)){
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      } else {
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Lastname!"
-      }
-
-      //hours
-      let toSaveHours = parseInt(this.state.hours)
-      if(!toSaveHours || toSaveHours <= 0 || toSaveHours > 12){
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Time!"
-        console.log("here")
-      } else {
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      }
-
-      //minutes
-      let toSaveMinutes = parseInt(this.state.mins)
-      if(!toSaveMinutes || toSaveMinutes <= 0 || toSaveMinutes >= 60){
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Time!"
-        console.log("here")
-      } else {
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      }
-
-      //seconds
-      let toSaveSeconds = parseInt(this.state.secs)
-      if(!toSaveSeconds || toSaveSeconds <= 0 || toSaveSeconds >= 60){
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Time!"
-        console.log("here")
-      } else {
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      }
-
-      if(/^\d+$/.test(this.state.ampm)
-      || (this.state.ampm.toUpperCase() != "AM"
-      && this.state.ampm.toUpperCase() != "PM")){
-        newState.fieldsvalid = false
-        newState.errormsg = "Invalid Time!"
-
-        console.log(/^\d+$/.test(this.state.ampm))
-        console.log(this.state.ampm.toUpperCase() != "AM")
-        console.log(this.state.ampm.toUpperCase() != "PM")
-        console.log(this.state.ampm.toUpperCase())
-        console.log("here")
-      } else {
-        newState.fieldsvalid = true
-        newState.errormsg = ""
-      }
-
-      if(newState.fieldsvalid){
-        alert("valid fields")
-      } else {
-        this.setState(newState)
-      }
-
+      this.save()
     }
+  }
+  flip(){
+    this.save()
+  }
+
+  save(e){
+    let newState = {
+      "fieldsvalid": false,
+      "errormsg": "Fix yourself"
+    }
+    
+
+
+    if(newState.fieldsvalid){
+      //convert to time
+      var d = new Date()
+
+      if(this.state.ampm == "AM"){
+        d.setHours(this.state.hours, this.state.mins, this.state.secs)
+      } else {
+        d.setHours(parseInt(this.state.hours) + 12, this.state.mins, this.state.secs)
+      }
+
+      let url;
+      if(this.state.mode == "in"){
+        url = "/clock/in"
+      } else {
+        url = "/clock/out"
+      }
+
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstname: this.state.firstname,
+          lastname: this.state.lastname,
+          time: d
+        })
+      }).then(resp => {
+        console.log(resp)
+        resp.json().then(data => {
+          if(data.hasOwnProperty("error")){
+            this.setState({"errormsg": data["error"]})
+          } else {
+            this.setState({
+              "errormsg": "",
+              "editmode": false
+            })
+            this.props.finishedEditing()
+          }
+        })
+      })
+
+    } else {
+      newState["editmode"] = false
+      this.setState(newState)
+
+      alert("not valid")
+      //message should disapear after 3s
+      setTimeout(() => {
+        this.setState({
+          "errormsg": ""
+        })
+      }, 3000)
+    }
+
   }
 
 
@@ -184,10 +178,10 @@ class Card extends Component {
       console.log("edit mode on")
 
       return (
-        <div className="Card editmode" onKeyUp={this.save}>
+        <div className="Card editmode" onKeyUp={this.saveOnEnter}>
           <input onChange={this.updateFirstname} className="firstname" type="text" value={this.state.firstname} />
           <input onChange={this.updateLastname} className="lastname" type="text" value={this.state.lastname} />
-          <Switch sendSwitchValue={this.updateMode} toggle={this.state.mode} />
+          <Switch detectClick={this.save} sendSwitchValue={this.updateMode} toggle={this.state.mode} />
           <input onChange={this.updateHours} type="text" className="hours" value={this.state.hours} />
           <span className="mark">:</span>
           <input onChange={this.updateMinutes} type="text" className="mins" value={this.state.mins} />
@@ -205,6 +199,7 @@ class Card extends Component {
           <p onDoubleClick={this.editMode} className="item lastname">{this.props.data.lastname}</p>
           <p onDoubleClick={this.editMode} className={"item mode " + this.props.data.mode}>{this.props.data.mode.toUpperCase()}</p>
           <p onDoubleClick={this.editMode} className="item time">{new Date(this.props.data.time).toLocaleTimeString()}</p>
+          <span className="errormsg">{this.state.errormsg}</span>
         </div>
       )
     }

@@ -42,6 +42,12 @@ $grey: #a9a0a0;
   .Card:not(.editmode):not(.clock-form):hover {
     cursor: pointer;
   }
+  .Card:not(.editmode):not(.clock-form) {
+    position: relative;
+    .errormsg {
+      bottom: 3px;
+    }
+  }
 
   .Card.editmode {
     .firstname,

@@ -102,7 +102,7 @@ class Table extends Component {
         {
           this.state.data.map((item, index) => {
             return (
-              <Card key={item.firstname + " " + item.mode} data={item} />
+              <Card key={item.firstname + " " + item.lastname +" " + item.mode} data={item} finishedEditing={this.getActivity} />
             )
           })
         }
