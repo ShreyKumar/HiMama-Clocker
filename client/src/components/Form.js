@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Switch from "./ui/Switch.js";
 import "./../scss/Form.scss";
 
 class Form extends Component {

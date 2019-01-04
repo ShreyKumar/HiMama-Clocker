@@ -14,6 +14,8 @@ class Table extends Component {
     this.getActivity = this.getActivity.bind(this)
     this.submitted = this.submitted.bind(this)
 
+    this.editMode = this.editMode.bind(this)
+
     //initial call
     this.getActivity()
   }
@@ -94,6 +96,10 @@ class Table extends Component {
   </div>
   */
 
+  editMode(){
+    alert("edit mode")
+  }
+
   render(){
     return (
       <div className="clockin-area">
@@ -102,10 +108,10 @@ class Table extends Component {
           this.state.data.map((item, index) => {
             return (
               <div key={item.firstname + " " + item.mode} className="Card">
-                <p className="item firstname">{item.firstname}</p>
-                <p className="item lastname">{item.lastname}</p>
-                <p className={"item mode " + item.mode}>{item.mode.toUpperCase()}</p>
-                <p className="item time">{new Date(item.time).toLocaleTimeString()}</p>
+                <p onDoubleClick={this.editMode} className="item firstname">{item.firstname}</p>
+                <p onDoubleClick={this.editMode} className="item lastname">{item.lastname}</p>
+                <p onDoubleClick={this.editMode} className={"item mode " + item.mode}>{item.mode.toUpperCase()}</p>
+                <p onDoubleClick={this.editMode} className="item time">{new Date(item.time).toLocaleTimeString()}</p>
               </div>
             )
           })
