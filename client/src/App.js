@@ -10,7 +10,8 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      date: new Date()
+      date: new Date(),
+      loaded: false
     }
   }
 
@@ -24,9 +25,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className={"App " + "loaded-" + this.state.loaded}>
         <header>
-          <img src={logo} />
+          <img onLoad={() => this.setState({"loaded": true})} src={logo} />
           <h1>
             <span className="first">Clock</span>
             <span className="second">r</span>
