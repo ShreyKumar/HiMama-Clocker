@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+
 const app = express();
 const port = process.env.PORT || 5000;
-const path = require('path');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -32,8 +34,7 @@ app.post("/clock/out", (req, res) => {
 app.get("/clock/get", (req, res) => {
   res.send(users.allusers)
 })
-
-// Only for deployment
+// Only for production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
   app.get('*', function(req, res) {

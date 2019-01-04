@@ -19,7 +19,7 @@ class Table extends Component {
   }
 
   getActivity(){
-    fetch("http://localhost:5000/clock/get", {
+    fetch("/clock/get", {
       method: "get"
     }).then(resp => {
       console.log(resp)
