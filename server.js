@@ -35,11 +35,9 @@ app.get("/clock/get", (req, res) => {
   res.send(users.allusers)
 })
 // Only for production
-if (process.env.NODE_ENV === 'production') {
   app.use(express.static("client/build"));
   app.get('*', function(req, res) {
     res.sendFile(path.join('client/build', 'index.html'));
   });
-}
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
