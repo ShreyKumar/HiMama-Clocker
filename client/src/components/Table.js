@@ -9,7 +9,8 @@ class Table extends Component {
     this.state = {
       data: [],
       showanimation: false,
-      loaded: true
+      loaded: true,
+      tooltip: ""
     }
 
     this.getActivity = this.getActivity.bind(this)
@@ -28,9 +29,17 @@ class Table extends Component {
         //sort dates by time
         console.log(data)
 
-        this.setState({
-          data: data
-        })
+        if(data.length > 0){
+          this.setState({
+            data: data,
+            tooltip: "Double click to edit and press enter to save (Warning: Might be buggy!)"
+          })
+        } else {
+          this.setState({
+            data: data
+          })
+        }
+
       })
     })
   }
@@ -95,14 +104,16 @@ class Table extends Component {
   </div>
   */
 
+
   render(){
     return (
       <div className="clockin-area">
         <Form submitted={this.submitted} />
+        <p className="tooltip">{this.state.tooltip}</p>
         {
           this.state.data.map((item, index) => {
             return (
-              <Card key={item.firstname + " " + item.lastname +" " + item.mode} data={item} finishedEditing={this.getActivity} />
+              <Card toggleToolTip={this.toggleToolTip} key={item.firstname + " " + item.lastname +" " + item.mode} data={item} finishedEditing={this.getActivity} />
             )
           })
         }

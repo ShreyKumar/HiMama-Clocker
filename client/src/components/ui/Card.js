@@ -7,29 +7,29 @@ class Card extends Component {
     super(props)
 
     let d = new Date(this.props.data.time)
-    let hours = d.getHours()
-    let ampm = ""
-    if(hours > 12){
-      hours -= 12
-      ampm = "PM"
-    } else if(hours == 0){
-      hours = 12
-      ampm = "AM"
+    this.hours = d.getHours()
+    this.ampm = ""
+    if(this.hours > 12){
+      this.hours -= 12
+      this.ampm = "PM"
+    } else if(this.hours == 0){
+      this.hours = 12
+      this.ampm = "AM"
     } else {
-      ampm = "AM"
+      this.ampm = "AM"
     }
-    let mins = d.getMinutes()
-    let secs = d.getSeconds()
+    this.mins = d.getMinutes()
+    this.secs = d.getSeconds()
 
     this.state = {
       "editmode": false,
       "firstname": this.props.data.firstname,
       "lastname": this.props.data.lastname,
       "mode": this.props.data.mode,
-      "hours": hours,
-      "mins": mins,
-      "secs": secs,
-      "ampm": ampm,
+      "hours": this.hours,
+      "mins": this.mins,
+      "secs": this.secs,
+      "ampm": this.ampm,
       "fieldsvalid": false,
       "errormsg": ""
     }
@@ -45,7 +45,6 @@ class Card extends Component {
 
     this.save = this.save.bind(this)
     this.saveOnEnter = this.saveOnEnter.bind(this)
-    this.flip = this.flip.bind(this)
 
   }
 
@@ -54,10 +53,11 @@ class Card extends Component {
   }
 
   updateFirstname(e){
-    console.log(e.target.value)
-    this.setState({
-      firstname: e.target.value
-    })
+    if(e.target.value.length > 1){
+      this.setState({
+        firstname: e.target.value
+      })
+    }
   }
 
   updateLastname(e){
@@ -67,9 +67,11 @@ class Card extends Component {
   }
 
   updateMode(mode){
-    this.setState({
-      mode: mode
-    })
+    console.log("changed mode")
+    console.log(mode)
+
+    this.state.mode = mode
+    this.save()
   }
 
   updateHours(e){
@@ -101,73 +103,72 @@ class Card extends Component {
       this.save()
     }
   }
-  flip(){
-    this.save()
-  }
 
-  save(e){
-    let newState = {
-      "fieldsvalid": false,
-      "errormsg": "Fix yourself"
-    }
-    
+  save(){
+    //convert to time
+    var d = new Date()
 
-
-    if(newState.fieldsvalid){
-      //convert to time
-      var d = new Date()
-
-      if(this.state.ampm == "AM"){
-        d.setHours(this.state.hours, this.state.mins, this.state.secs)
-      } else {
-        d.setHours(parseInt(this.state.hours) + 12, this.state.mins, this.state.secs)
-      }
-
-      let url;
-      if(this.state.mode == "in"){
-        url = "/clock/in"
-      } else {
-        url = "/clock/out"
-      }
-
-      fetch(url, {
-        method: 'post',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstname: this.state.firstname,
-          lastname: this.state.lastname,
-          time: d
-        })
-      }).then(resp => {
-        console.log(resp)
-        resp.json().then(data => {
-          if(data.hasOwnProperty("error")){
-            this.setState({"errormsg": data["error"]})
-          } else {
-            this.setState({
-              "errormsg": "",
-              "editmode": false
-            })
-            this.props.finishedEditing()
-          }
-        })
-      })
-
+    if(this.state.ampm == "AM"){
+      d.setHours(this.state.hours, this.state.mins, this.state.secs)
     } else {
-      newState["editmode"] = false
-      this.setState(newState)
-
-      alert("not valid")
-      //message should disapear after 3s
-      setTimeout(() => {
-        this.setState({
-          "errormsg": ""
-        })
-      }, 3000)
+      d.setHours(parseInt(this.state.hours) + 12, this.state.mins, this.state.secs)
     }
+
+    console.log("CHANGING TO THIS DATE")
+    console.log(d)
+
+    let url;
+    if(this.state.mode == "in"){
+      url = "/clock/in"
+    } else {
+      url = "/clock/out"
+    }
+
+    fetch(url, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        time: d
+      })
+    }).then(resp => {
+      console.log(resp)
+      resp.json().then(data => {
+        if(data.hasOwnProperty("error")){
+          console.log(this.state.errormsg)
+          this.setState({
+            "errormsg": data["error"],
+            "editmode": false,
+            "firstname": this.props.data.firstname,
+            "lastname": this.props.data.lastname,
+            "hours": this.hours,
+            "mins": this.mins,
+            "secs": this.secs,
+            "ampm": this.ampm,
+            "mode": this.props.data.mode
+          })
+          this.props.finishedEditing()
+
+          //message should disapear after 2s
+          setTimeout(() => {
+            this.setState({
+              "errormsg": ""
+            })
+          }, 2000)
+        } else {
+          console.log("success")
+          this.setState({
+            "errormsg": "",
+            "editmode": false
+          })
+          this.props.finishedEditing()
+        }
+      })
+    })
 
   }
 
