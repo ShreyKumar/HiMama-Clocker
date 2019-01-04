@@ -25,14 +25,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <header>
+          <img src={logo} />
+          <h1>
+            <span className="first">Clock</span>
+            <span className="second">r</span>
+          </h1>
+        </header>
         <div id="main-container">
-          <header>
-            <img src={logo} />
-            <h1>
-              <span className="first">Clock</span>
-              <span className="second">r</span>
-            </h1>
-          </header>
           <h2>Clock-ins for {this.state.date.toLocaleDateString()}</h2>
           <div className="clocks">
             <div className="digital-clock">
