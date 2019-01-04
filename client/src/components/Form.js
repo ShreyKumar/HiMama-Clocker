@@ -14,20 +14,11 @@ class Form extends Component {
       "errormsg": ""
     }
 
-    this.inOutSwitch = this.inOutSwitch.bind(this)
     this.checkFirstname = this.checkFirstname.bind(this)
     this.checkLastname = this.checkLastname.bind(this)
     this.clock = this.clock.bind(this)
 
     this.namechecker = /[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-{1,}]/;
-  }
-
-  inOutSwitch(){
-    if(this.state.inoutswitch == "in"){
-      this.setState({"inoutswitch": "out"})
-    } else {
-      this.setState({"inoutswitch": "in"})
-    }
   }
 
   checkFirstname(e){
@@ -113,15 +104,7 @@ class Form extends Component {
       <form className={"clock-form Card " + this.props.className}>
         <input value={this.state.firstname} onChange={this.checkFirstname} onBlur={this.checkFirstname} className="firstname" placeholder="Firstname" />
         <input value={this.state.lastname} onChange={this.checkLastname} onBlur={this.checkLastname} className="lastname" placeholder="Lastname"/>
-        <div className="inorout" onClick={this.inOutSwitch}>
-          <div className="in">
-            <span>IN</span>
-          </div>
-          <div className="out">
-            <span>OUT</span>
-          </div>
-          <div className={"selected " + this.state.inoutswitch}></div>
-        </div>
+        <Switch sendSwitchValue={val => this.setState({"inoutswitch": val})} />
         <a href="#" onClick={this.clock} className={"submit-btn " + btnswitch}>Submit</a>
         <span className="errormsg">{this.state.errormsg}</span>
       </form>

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Cabin|Roboto');
 @import "./scss/variables.scss";
+/* GLOBAL USE */
 
 * {
   box-sizing: border-box !important;
@@ -65,4 +66,21 @@
       }
     }
   }
+  input:first-child {
+    margin-right: 10px;
+  }
+  input {
+    height: 30px;
+    font-size: 15px;
+    padding-left: 7px;
+    outline: none;
+  }
+  .errormsg {
+    color: red;
+    display: block;
+    position: absolute;
+    font-size: 13px;
+  }
+
+
 }

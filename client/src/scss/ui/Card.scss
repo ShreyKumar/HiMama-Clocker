@@ -1,0 +1,84 @@
+@import "./../variables.scss";
+$grey: #a9a0a0;
+.App {
+  .Card {
+    background-color: white;
+    min-height: 60px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid $grey;
+    .item {
+      width: 203px;
+      float: left;
+      margin: 0;
+      text-overflow: ellipsis;
+    }
+    .item.lastname {
+      padding-left: 10px;
+    }
+    .item.time {
+      margin-left: 57px;
+      width: 100px;
+      font-family: $digital-clock-font;
+    }
+    .item.mode {
+      width: auto;
+      min-width: 45px;
+      text-align: center;
+      border-radius: 10px;
+      color: white;
+    }
+    .item.mode.in {
+      background-color: green;
+    }
+    .item.mode.out {
+      background-color: red;
+    }
+  }
+
+  .Card.editmode {
+    .firstname,
+    .lastname {
+      width: 154px;
+    }
+    .hours, .mins, .secs, .ampm {
+      width: 32px;
+      margin-left: 3px;
+      margin-right: 3px;
+      padding-left: 5px;
+    }
+    .ampm {
+      width: 37px;
+    }
+  }
+}
+
+// Optional Animations
+.Card.slidedown {
+  -webkit-animation-name: slidedown;
+  -webkit-animation-duration: 3s;
+  animation-name: slidedown;
+  animation-duration: 3s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes slidedown {
+  from {
+    top: 41px;
+    position: absolute;
+  }
+  to {
+    top: 220px;
+  }
+}
+
+/* Standard syntax */
+@keyframes slidedown {
+  from {
+    top: 41px;
+    position: absolute;
+  }
+  to {
+    top: 220px;
+  }
+}

@@ -1,74 +1,8 @@
 @import "variables.scss";
-$in-colour: #00ff1c;
-$out-colour: #cc0000;
+
 
 form {
   margin-top: 40px;
-  input:first-child {
-    margin-right: 10px;
-  }
-  input {
-    height: 30px;
-    font-size: 15px;
-    padding-left: 7px;
-    outline: none;
-  }
-  .inorout {
-    position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 29px;
-    margin-left: 10px;
-    margin-right: 10px;
-    background-color: #000;
-    border-radius: 5px;
-    z-index: 0;
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
-    .in, .out {
-      display: inline-block;
-      width: 50%;
-      height: 100%;
-      span {
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        text-decoration: none;
-        color: #FFF;
-        height: 100%;
-        padding-top: 5px;
-        z-index: 2;
-      }
-    }
-    .out {
-      position: absolute;
-    }
-    .selected {
-      display: block;
-      width: 50%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      z-index: 1;
-    }
-    .selected.in {
-      background-color: $in-colour;
-      right: 0;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-    .selected.out {
-      background-color: $out-colour;
-      left: 0;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-    }
-  }
-  .inorout:hover {
-    cursor: pointer;
-  }
   .submit-btn {
     height: 100%;
     -webkit-user-select: none; /* Safari */
@@ -92,12 +26,6 @@ form {
   }
   .submit-btn:visited {
     color: white;
-  }
-  .errormsg {
-    color: red;
-    display: block;
-    position: absolute;
-    font-size: 13px;
   }
 }
 
