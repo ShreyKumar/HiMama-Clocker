@@ -30,7 +30,8 @@ class Card extends Component {
       "mins": mins,
       "secs": secs,
       "ampm": ampm,
-      "fieldsvalid": false
+      "fieldsvalid": false,
+      "errormsg": ""
     }
 
     this.editMode = this.editMode.bind(this)
@@ -95,7 +96,84 @@ class Card extends Component {
 
   save(e){
     if(e.keyCode == 13){
-      alert("enter")
+      let newState = {
+        "fieldsvalid": false,
+        "errormsg": ""
+      }
+
+      //firstname
+      if(this.namechecker.test(this.state.firstname)){
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      } else {
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Firstname!"
+      }
+
+      //lastname
+      if(this.namechecker.test(this.state.lastname)){
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      } else {
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Lastname!"
+      }
+
+      //hours
+      let toSaveHours = parseInt(this.state.hours)
+      if(!toSaveHours || toSaveHours <= 0 || toSaveHours > 12){
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Time!"
+        console.log("here")
+      } else {
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      }
+
+      //minutes
+      let toSaveMinutes = parseInt(this.state.mins)
+      if(!toSaveMinutes || toSaveMinutes <= 0 || toSaveMinutes >= 60){
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Time!"
+        console.log("here")
+      } else {
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      }
+
+      //seconds
+      let toSaveSeconds = parseInt(this.state.secs)
+      if(!toSaveSeconds || toSaveSeconds <= 0 || toSaveSeconds >= 60){
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Time!"
+        console.log("here")
+      } else {
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      }
+
+      if(/^\d+$/.test(this.state.ampm)
+      || (this.state.ampm.toUpperCase() != "AM"
+      && this.state.ampm.toUpperCase() != "PM")){
+        newState.fieldsvalid = false
+        newState.errormsg = "Invalid Time!"
+
+        console.log(/^\d+$/.test(this.state.ampm))
+        console.log(this.state.ampm.toUpperCase() != "AM")
+        console.log(this.state.ampm.toUpperCase() != "PM")
+        console.log(this.state.ampm.toUpperCase())
+        console.log("here")
+      } else {
+        newState.fieldsvalid = true
+        newState.errormsg = ""
+      }
+
+      if(newState.fieldsvalid){
+        alert("valid fields")
+      } else {
+        this.setState(newState)
+      }
+
     }
   }
 
@@ -116,6 +194,7 @@ class Card extends Component {
           <span className="mark">:</span>
           <input onChange={this.updateSeconds} type="text" className="secs" value={this.state.secs} />
           <input onChange={this.updateAMPM} type="text" className="ampm" value={this.state.ampm} />
+          <span className="errormsg">{this.state.errormsg}</span>
         </div>
       )
     } else {
